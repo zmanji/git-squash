@@ -12,7 +12,7 @@ error = functools.partial(print, file=sys.stderr)
 def main(args):
     parser = argparse.ArgumentParser()
     parser.add_argument("branch",
-            help="The git branch to rebase and squash on top of.")
+            help="The git branch to squash commits of the current branch on to.")
     args = parser.parse_args(args)
 
     repo = git.Repo(".", search_parent_directories=True)
