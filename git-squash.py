@@ -3,13 +3,22 @@
 import argparse
 import sys
 
+import git
+
 def main(args):
     parser = argparse.ArgumentParser()
-    parser.add_argument("branch", default="master",
+    parser.add_argument("branch",
             help="The git branch to rebase and squash on top of.")
     parser.parse_args(args)
 
+    repo = git.Repo(".", search_parent_directories=True)
+
     # TODO(zmanji): Check if the git tree is dirty or not
+
+    if repo.is_dirty():
+        print("The repo is dirty, please stash or commit changes")
+        return 1
+
 
     # Get the merge base: `git merge-base <branch> HEAD`
     # TODO(zmanji): What if the merge-base is HEAD? (no-op?)
