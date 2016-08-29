@@ -9,7 +9,7 @@ import git
 
 error = functools.partial(print, file=sys.stderr)
 
-def main(args):
+def squash(args):
     parser = argparse.ArgumentParser()
     parser.add_argument("branch",
             help="The git branch to squash commits of the current branch on to.")
@@ -56,5 +56,8 @@ def main(args):
     repo.index.commit(log_message)
     return 0
 
+def main():
+    sys.exit(squash(sys.argv[1:]))
+
 if __name__ == '__main__':
-    sys.exit(main(sys.argv[1:]))
+    main()
