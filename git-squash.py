@@ -29,14 +29,7 @@ def main(args):
         error("No merge base between current branch and %s found!" % branch)
         return 1
 
-    print(mb)
-
-    # TODO(zmanji): What if the merge-base is HEAD? (no-op?)
-    # Get all of the commits between the current branch and the merge base
-    # `git log HEAD..<merge-base>`
-
     rev_range = 'HEAD...%s' % mb.hexsha
-    print(rev_range)
     commits_to_squash = list(repo.iter_commits(rev=rev_range))
     if len(commits_to_squash) == 0:
         error("No commits to squash!")
@@ -45,13 +38,9 @@ def main(args):
         error("Only one commit to squash. Exiting.")
         return 0
 
-    print(commits_to_squash)
-
     log_message = "git-squash of %s commits." % len(commits_to_squash) + "\n"
     for commit in commits_to_squash:
         log_message = log_message + "\n" + commit.summary + " (%s)" % commit.hexsha
-
-    print(log_message)
 
     # Soft reset of HEAD to the merge base.
     git.refs.head.HEAD(repo).reset(commit=mb, index=False, working_tree=False)
@@ -61,7 +50,7 @@ def main(args):
         error("Squashing commits results in no change!")
         return 1
 
-    # Now commit the changes with the squash message
+    # Commit the changes with the squash message
 
     repo.index.commit(log_message)
     return 0
