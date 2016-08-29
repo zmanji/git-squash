@@ -31,7 +31,9 @@ def main(args):
     # Get all of the commits between the current branch and the merge base
     # `git log HEAD..<merge-base>`
 
-    commits_to_squash = repo.iter_commits(rev='HEAD..%s' % mb.binsha)
+    rev_range = 'HEAD...%s' % mb.hexsha
+    print(rev_range)
+    commits_to_squash = repo.iter_commits(rev=rev_range)
     print(list(commits_to_squash))
 
     # Soft reset to the merge base? (just change HEAD to merge_base)
