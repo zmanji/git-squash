@@ -13,8 +13,6 @@ def main(args):
 
     repo = git.Repo(".", search_parent_directories=True)
 
-    # TODO(zmanji): Check if the git tree is dirty or not
-
     if repo.is_dirty():
         print("The repo is dirty, please stash or commit changes")
         return 1
