@@ -1,9 +1,13 @@
 #!/usr/bin/env python2.7
+from __future__ import print_function
 
 import argparse
+import functools
 import sys
 
 import git
+
+error = functools.partial(print, file=sys.stderr)
 
 def main(args):
     parser = argparse.ArgumentParser()
@@ -14,7 +18,7 @@ def main(args):
     repo = git.Repo(".", search_parent_directories=True)
 
     if repo.is_dirty():
-        print("The repo is dirty, please stash or commit changes")
+        error("The repo is dirty, please stash or commit changes")
         return 1
 
     # Find all commits betweent HEAD and branch
@@ -22,7 +26,7 @@ def main(args):
     if len(mb) == 1:
         mb = mb[0]
     else:
-        print("No merge base between current branch and %s found!" % branch)
+        error("No merge base between current branch and %s found!" % branch)
         return 1
 
     print(mb)
@@ -35,10 +39,10 @@ def main(args):
     print(rev_range)
     commits_to_squash = list(repo.iter_commits(rev=rev_range))
     if len(commits_to_squash) == 0:
-        print("No commits to squash!")
+        error("No commits to squash!")
         return 1
     elif len(commits_to_squash) == 1:
-        print("Only one commit to squash. Exiting.")
+        error("Only one commit to squash. Exiting.")
         return 0
 
     print(commits_to_squash)
@@ -54,7 +58,7 @@ def main(args):
 
     # Double check the tree is dirty
     if not repo.is_dirty():
-        print("Squashing commits results in no change!")
+        error("Squashing commits results in no change!")
         return 1
 
     # Now commit the changes with the squash message
