@@ -9,7 +9,7 @@ def main(args):
     parser = argparse.ArgumentParser()
     parser.add_argument("branch",
             help="The git branch to rebase and squash on top of.")
-    parser.parse_args(args)
+    args = parser.parse_args(args)
 
     repo = git.Repo(".", search_parent_directories=True)
 
@@ -17,8 +17,11 @@ def main(args):
         print("The repo is dirty, please stash or commit changes")
         return 1
 
-
     # Get the merge base: `git merge-base <branch> HEAD`
+
+    mb = repo.merge_base(args.branch, "HEAD")
+    print(mb)
+
     # TODO(zmanji): What if the merge-base is HEAD? (no-op?)
     # Get all of the commits between the current branch and the merge base
     # `git log HEAD..<merge-base>`
