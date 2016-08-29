@@ -12,7 +12,7 @@ error = functools.partial(print, file=sys.stderr)
 def squash(args):
     parser = argparse.ArgumentParser()
     parser.add_argument("branch",
-            help="The git branch to squash commits of the current branch on to.")
+            help="The upstream branch to squash commits of the current branch on to.")
     args = parser.parse_args(args)
 
     repo = git.Repo(".", search_parent_directories=True)
