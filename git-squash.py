@@ -40,7 +40,8 @@ def main(args):
 
     log_message = "git-squash of %s commits." % len(commits_to_squash) + "\n"
     for commit in commits_to_squash:
-        log_message = log_message + "\n" + commit.summary + " (%s)" % commit.hexsha
+        short_sha = repo.git.rev_parse(commit.hexsha, short=4)
+        log_message = log_message + "\n" + commit.summary + " (%s)" % short_sha
 
     # Soft reset of HEAD to the merge base.
     git.refs.head.HEAD(repo).reset(commit=mb, index=False, working_tree=False)
