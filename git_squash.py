@@ -8,10 +8,13 @@ import git
 
 error = functools.partial(print, file=sys.stderr)
 
-def squash(args) -> int :
+
+def squash(args) -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("branch",
-            help="The upstream branch to squash commits of the current branch on to.")
+    parser.add_argument(
+        "branch",
+        help="The upstream branch to squash commits of the current branch on to.",
+    )
     args = parser.parse_args(args)
 
     repo = git.Repo(".", search_parent_directories=True)
@@ -28,7 +31,7 @@ def squash(args) -> int :
         error("No merge base between current branch and %s found!" % args.branch)
         return 1
 
-    rev_range = 'HEAD...%s' % mb.hexsha
+    rev_range = "HEAD...%s" % mb.hexsha
     commits_to_squash = list(repo.iter_commits(rev=rev_range))
     if len(commits_to_squash) == 0:
         error("No commits to squash!")
@@ -55,8 +58,10 @@ def squash(args) -> int :
     repo.index.commit(log_message)
     return 0
 
+
 def main():
     sys.exit(squash(sys.argv[1:]))
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
