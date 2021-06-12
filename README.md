@@ -6,5 +6,19 @@ commit.
 `git-squash <upstream-branch>`
 
 ## Build Instructions ##
-Install [title](https://github.com/pantsbuild/pex) and run
-`python setup.py bdist_pex` to get a binary.
+Setup a virtual env with:
+
+```
+python3 -m venv venv
+source ./venv/bin/activate
+pip install -r requirements-dev.txt
+pip-sync requirements-dev.txt requirements.txt
+```
+
+Then run
+
+```
+python setup.py bdisy_pex
+```
+
+to get a binary.
