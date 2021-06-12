@@ -8,7 +8,7 @@ import git
 
 error = functools.partial(print, file=sys.stderr)
 
-def squash(args):
+def squash(args) -> int :
     parser = argparse.ArgumentParser()
     parser.add_argument("branch",
             help="The upstream branch to squash commits of the current branch on to.")
@@ -25,7 +25,7 @@ def squash(args):
     if len(mb) == 1:
         mb = mb[0]
     else:
-        error("No merge base between current branch and %s found!" % branch)
+        error("No merge base between current branch and %s found!" % args.branch)
         return 1
 
     rev_range = 'HEAD...%s' % mb.hexsha
