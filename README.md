@@ -18,7 +18,7 @@ pip-sync requirements-dev.txt requirements.txt
 Then run
 
 ```
-python setup.py bdisy_pex
+python setup.py bdist_pex
 ```
 
 to get a binary.
